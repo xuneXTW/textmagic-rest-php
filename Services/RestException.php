@@ -8,13 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
- 
-namespace Textmagic\Services; 
- 
- /**
+
+namespace Textmagic\Services;
+
+/**
  * @author Denis <denis@textmagic.biz>
  */
- 
 class RestException extends \ErrorException {
 
     /**
@@ -25,36 +24,46 @@ class RestException extends \ErrorException {
 
     /**
      * RestException constructor
-     * 
-     * @param string $message 
-     * @param integer $code 
-     * @param object $errors 
+     *
+     * @param string  $message
+     * @param integer $code
+     * @param object  $errors
+     *
      * @return object
      */
-    public function __construct($message, $code, $errors = null) {
+    public function __construct($message, $code, $errors = null)
+    {
         $this->errors = $errors;
         parent::__construct($message, $code);
     }
 
     /**
      * Get errors received from Textmagic API
-     * 
+     *
      * @return array
      */
-    public function getErrors() {
+    public function getErrors()
+    {
         $result = array();
+        if (is_null($this->errors))
+            return $result;
 
-        if (count($this->errors) > 0) {
-            if (isset($this->errors['common'])) {
-                $result['common'] = $this->errors['common'];
-            }
-            if (isset($this->errors['fields'])) {
-                foreach ($this->errors['fields'] as $key => $value) {
-                    $result[$key] = $value;
-                }
+        if (count($this->errors) <= 0)
+            return $result;
+
+        if (isset($this->errors['common']))
+        {
+            $result['common'] = $this->errors['common'];
+        }
+
+        if (isset($this->errors['fields']))
+        {
+            foreach ($this->errors['fields'] as $key => $value)
+            {
+                $result[ $key ] = $value;
             }
         }
-        
+
         return $result;
     }
 

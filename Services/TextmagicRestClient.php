@@ -297,7 +297,7 @@ class TextmagicRestClient {
         throw new RestException(
             $decoded['message'],
             $decoded['code'],
-            (isset($decoded['errors']) ? $decoded['errors'] : null)
+            (isset($decoded['errors']) ? $decoded['errors'] : [])
         );
     }
 }
